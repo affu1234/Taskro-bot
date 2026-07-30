@@ -23,4 +23,8 @@ if __name__ == "__main__":
     import threading
     t = threading.Thread(target=run)
     t.start()
+    
+    # Purana webhook hataane ke liye
+    bot.remove_webhook()
+    
     bot.infinity_polling()
