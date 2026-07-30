@@ -1,20 +1,16 @@
 import os
 import random
-import json
 import telebot
 from flask import Flask
 import gspread
-from google.oauth2.service_account import Credentials
+from oauth2client.service_account import ServiceAccountCredentials
 
 TOKEN = "8862372091:AAGrkIUg92IiZLIMDCbN43sxneygeyzWAWM"
 bot = telebot.TeleBot(TOKEN)
 
-# Render Environment Variable se Google Connect karna
-creds_json = os.environ.get("GOOGLE_CREDENTIALS")
-creds_dict = json.loads(creds_json)
-
+# Google Sheets Setup
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = Credentials.from_service_account_info(creds_dict, scopes=scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
 client = gspread.authorize(creds)
 
 sheet = client.open("Bot_Database").worksheet("Users")
