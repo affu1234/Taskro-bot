@@ -3,16 +3,12 @@ import random
 import telebot
 from flask import Flask
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 
 TOKEN = "8862372091:AAGrkIUg92IiZLIMDCbN43sxneygeyzWAWM"
 bot = telebot.TeleBot(TOKEN)
 
-# Google Sheets Setup
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-client = gspread.authorize(creds)
-
+# Google Sheets Setup (Direct JSON file se connection)
+client = gspread.service_account(filename='credentials.json')
 sheet = client.open("Bot_Database").worksheet("Users")
 
 app = Flask('')
@@ -21,7 +17,6 @@ app = Flask('')
 def home():
     return "Bot is alive and running!"
 
-# Sabse pehla master invite code
 MASTER_CODES = ["TASK2026", "ADMIN123"]
 
 @bot.message_handler(commands=['start'])
